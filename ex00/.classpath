@@ -35,6 +35,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/Dev/java/eclipse/lombok.jar"/>
+	<classpathentry kind="lib" path="D:/Dev/database/mysql/mysql-connector-java-8.0.24/mysql-connector-java-8.0.24.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
