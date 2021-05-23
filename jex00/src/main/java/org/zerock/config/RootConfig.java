@@ -21,8 +21,12 @@ public class RootConfig {
 	@Bean
 	public DataSource dataSource() {
 		HikariConfig hikariConfig = new HikariConfig();
-		hikariConfig.setDriverClassName("com.mysql.cj.jdbc.Driver");
-		hikariConfig.setJdbcUrl("jdbc:mysql://127.0.0.1:3306/mydb?serverTimezone=UTC");
+		//hikariConfig.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		//hikariConfig.setJdbcUrl("jdbc:mysql://127.0.0.1:3306/mydb?serverTimezone=UTC");
+
+		// log4jdbc 설정
+		hikariConfig.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
+		hikariConfig.setJdbcUrl("jdbc:log4jdbc:mysql://127.0.0.1:3306/mydb?serverTimezone=Asia/Seoul");
 		hikariConfig.setUsername("book_ex");
 		hikariConfig.setPassword("1q2w3e4r!");
 		
