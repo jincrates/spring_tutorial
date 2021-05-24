@@ -83,7 +83,7 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
-		 -->
+		-->
 		<!-- @Inject -->
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -110,7 +110,7 @@
 			<version>1.2</version>
 		</dependency>
 		
-			<!-- Lombok 추가 -->
+		<!-- Lombok 추가 -->
 		<dependency>
 		    <groupId>org.projectlombok</groupId>
 		    <artifactId>lombok</artifactId>
@@ -126,7 +126,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>5.1.5.RELEASE</version>
+			<version>${org.springframework-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.zaxxer</groupId>
