@@ -3,13 +3,18 @@ package org.zerock.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.zerock.domain.SampleDTO;
 import org.zerock.domain.SampleDTOList;
 import org.zerock.domain.TodoDTO;
@@ -109,11 +114,13 @@ public class SampleController {
 	 - HttpHeaders: 응답에 내용없이 Http 헤더 메시지만 전달하는 용도로 사용
 	 */
 	
+	// void 타입
 	@GetMapping("/ex05")
 	public void ex05() {
 		log.info("/ex05..............");
 	}
 	
+	// 객체 타입
 	@GetMapping("/ex06")
 	public @ResponseBody SampleDTO ex06() {
 		log.info("/ex06................");
@@ -125,4 +132,31 @@ public class SampleController {
 		return dto;
 	}
 	
+	// ResponseEntity 타입
+	@GetMapping("/ex07")
+	public ResponseEntity<String> ex07() {
+		log.info("/ex07..............");
+		
+		// {"name": "홍길동"}
+		String msg = "{\"name\": \"홍길동\"}";
+		
+		HttpHeaders header = new HttpHeaders();
+		header.add("Content-Type", "application/json;charset=UTF-8");
+		
+		return new ResponseEntity<>(msg, header, HttpStatus.OK);
+	}
+	
+	@GetMapping("/exUpload")
+	public void exUpload() {
+		log.info("/exUpload................");
+	}
+	
+	@PostMapping("/exUploadPost")
+	public void exUploadPost(ArrayList<MultipartFile> files) {
+		files.forEach(file -> {
+			log.info("----------------------------");
+			log.info("name: " + file.getOriginalFilename());
+			log.info("size: " + file.getSize());
+		});
+	}
 }
