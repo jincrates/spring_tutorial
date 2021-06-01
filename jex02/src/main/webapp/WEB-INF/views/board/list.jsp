@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <%@include file="../includes/header.jsp"%>
@@ -41,8 +41,14 @@
 							<td><c:out value="${board.bno}" /></td>
 							<td><c:out value="${board.title}" /></td>
 							<td><c:out value="${board.writer}" /></td>
-							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.regdate}" /></td>
-							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.updateDate}" /></td>
+							<td>
+								<fmt:parseDate value="${board.regdate}" pattern="yyyy-MM-dd HH:mm" var="regdate"/>
+								<fmt:formatDate value="${regdate}" pattern="yyyy-MM-dd"/>		
+							</td>
+							<td>
+								<fmt:parseDate value="${board.updateDate}" pattern="yyyy-MM-dd HH:mm" var="updateDate"/>
+								<fmt:formatDate value="${updateDate}" pattern="yyyy-MM-dd"/>	
+							</td>
 						</tr>					
 					</c:forEach>
 					</tbody>
