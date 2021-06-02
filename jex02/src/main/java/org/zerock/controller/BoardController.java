@@ -35,7 +35,7 @@ public class BoardController {
 		
 		service.register(board);
 		
-		rttr.addFlashAttribute("result", board.getBno());
+		rttr.addFlashAttribute("result", board.getBno()); //addFlashAttribute()는 일회성으로만 데이터를 전달하기 때문에 새로고침시에도 데이터가 전달되지 ㅇ낳음 
 		
 		// 등록 작업이 끝나고 다시 목록으로 이동하기 위해 리턴 타입을 String으로 지정
 		// 리턴 시에 'redirect:' 접두어를 사용하면 스프링 MVC가 내부적으로 response.sendRedirect()를 처리함
@@ -67,7 +67,7 @@ public class BoardController {
 		log.info("remove:" + bno);
 		
 		if(service.remove(bno)) {
-			rttr.addFlashAttribute("result", "success");
+			rttr.addFlashAttribute("result", "success"); 
 		}
 		
 		return "redirect:/board/list";
