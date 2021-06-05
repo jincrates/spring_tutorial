@@ -53,7 +53,7 @@ public class BoardServiceImpl implements BoardService {
 		return mapper.delete(bno) == 1;
 	}
 
-	/*
+	
 	@Override
 	public List<BoardVO> getList() {
 		
@@ -61,8 +61,9 @@ public class BoardServiceImpl implements BoardService {
 		
 		return mapper.getList();
 	}
-	*/
 	
+	
+	/*
 	@Override
 	public List<BoardVO> getList(Criteria cri) {
 		
@@ -70,5 +71,6 @@ public class BoardServiceImpl implements BoardService {
 		
 		return mapper.getListWithPaging(cri);
 	}
+	*/
 	
 }

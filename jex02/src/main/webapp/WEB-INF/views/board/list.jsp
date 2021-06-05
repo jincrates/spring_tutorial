@@ -19,8 +19,7 @@
 		</div>
 		<div class="card-body">
 			<div class="table-responsive">
-				<table class="table table-bordered" id="dataTable" width="100%"
-					cellspacing="0">
+				<table class="table table-bordered" id="dataTable" width="100%"	cellspacing="0">
 					<thead>
 						<tr>
 							<th>#번호</th>
@@ -50,6 +49,33 @@
 					</c:forEach>
 					</tbody>
 				</table>
+				
+				<!-- 
+				<div class="dataTables_paginate paging_simple_numbers">
+					<ul class="pagination">
+						<c:if test="${pageMaker.prev }">
+							<li class="paginate_button page-item active">
+								<a href="${pageMaker.startPage - 1}" class="page-link">Previous</a>
+							</li>
+						</c:if>
+						
+						<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage }">
+							<li class="paginate_button page-item ${pageMaker.cri.pageNum == num ? 'active' : ''} "><a href="${num }" class="page-link">${num }</a></li>
+						</c:forEach>
+						
+						<c:if test="${pageMaker.next }">
+							<li class="paginate_button next"><a href="${pageMaker.endPage + 1}" class="page-link">Next</a></li>
+						</c:if>
+					</ul>
+				</div>
+
+				<form id="actionForm" action="/board/list" method="get">
+					<input type="hidden" name="pageNum" value = '${pageMaker.cri.pageNum} '>
+					<input type="hidden" name="amount" value = '${pageMaker.cri.amount} '>
+				</form>
+				 -->
+				<!-- end Pagination -->
+				
 			</div>
 		</div>
 	</div>
@@ -102,5 +128,20 @@
 		$("#regBtn").on("click", function(){
 			self.location = "/board/register";
 		});
+		
+		
+		/*
+		var actionForm = $("#actionForm");
+		
+		$(".paginate_button a").on("click", function(e) {
+			
+			e.preventDefault();
+			
+			console.log('click');
+			
+			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+			actionForm.submit();
+		})
+		  */
 	});
 </script>
