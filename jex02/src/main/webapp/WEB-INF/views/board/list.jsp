@@ -67,8 +67,8 @@
 			</div>
 			<div class="modal-body">처리가 완료되었습니다.</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">Save changes</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
 			</div>
 		</div>
 	</div>

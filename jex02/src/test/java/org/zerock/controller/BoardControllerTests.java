@@ -41,7 +41,9 @@ public class BoardControllerTests {
 	@Ignore
 	public void testList() throws Exception {
 		log.info(
-				mockMvc.perform(MockMvcRequestBuilders.get("/board/list"))
+				mockMvc
+				.perform(MockMvcRequestBuilders
+						.get("/board/list"))
 				.andReturn().getModelAndView().getModelMap());
 	}
 	
@@ -49,11 +51,15 @@ public class BoardControllerTests {
 	public void testRegister() throws Exception {
 		
 		// 테스트시 post()를 이용하면 POST 방식으로 데이터를 전달할 수 있음
-		String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/board/register")
-					.param("title", "테스트 새 글 제목")
-					.param("content", "테스트 새 글 내용")
-					.param("writer", "user00"))
-				.andReturn().getModelAndView().getViewName();
+		String resultPage = mockMvc
+				.perform(MockMvcRequestBuilders
+						.post("/board/register")
+						.param("title", "테스트 새 글 제목")
+						.param("content", "테스트 새 글 내용")
+						.param("writer", "user00"))
+				.andReturn()
+				.getModelAndView()
+				.getViewName();
 				
 		log.info(resultPage);
 	}
@@ -61,33 +67,56 @@ public class BoardControllerTests {
 	@Ignore
 	public void testGet() throws Exception {
 		
-		log.info(mockMvc.perform(MockMvcRequestBuilders.get("/board/get")
-							.param("bno", "1"))
-						.andReturn().getModelAndView().getModelMap());
+		log.info(mockMvc
+				.perform(MockMvcRequestBuilders
+						.get("/board/get")
+						.param("bno", "1"))
+				.andReturn()
+				.getModelAndView()
+				.getModelMap());
 	}
 	
 	@Ignore
 	public void testModify() throws Exception {
 		
 		String resultPage = mockMvc
-				.perform(MockMvcRequestBuilders.post("/board/modify")
+				.perform(MockMvcRequestBuilders
+						.post("/board/modify")
 						.param("bno", "1")
 						.param("title", "수정된 테스트 새 글 제목")
 						.param("content", "수정된 테스트 새 글 내용")
 						.param("writer", "user00"))
-				.andReturn().getModelAndView().getViewName();
+				.andReturn()
+				.getModelAndView()
+				.getViewName();
+		
+		log.info(resultPage);
+	}
+	
+	@Ignore
+	public void testRemove() throws Exception {
+		
+		//삭제 전 데이터베이스에 게시물 번호 확인할 것
+		String resultPage = mockMvc
+				.perform(MockMvcRequestBuilders
+						.post("/board/remove")
+						.param("bno", "9"))
+				.andReturn()
+				.getModelAndView()
+				.getViewName();
 		
 		log.info(resultPage);
 	}
 	
 	@Test
-	public void testRemove() throws Exception {
+	public void testListPaging() throws Exception {
 		
-		//삭제 전 데이터베이스에 게시물 번호 확인할 것
-		String resultPage = mockMvc.perform(MockMvcRequestBuilders.post("/board/remove")
-					.param("bno", "9"))
-				.andReturn().getModelAndView().getViewName();
-		
-		log.info(resultPage);
+		log.info(mockMvc.perform(MockMvcRequestBuilders
+					.get("/board/list")
+					.param("pageNum", "2")
+					.param("amount", "50"))
+				.andReturn()
+				.getModelAndView()
+				.getModelMap());
 	}
 }
