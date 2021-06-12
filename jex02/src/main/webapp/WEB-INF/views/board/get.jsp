@@ -4,6 +4,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@include file="../includes/header.jsp"%>
 
+<style type="text/css">
+	.chat { list-style:none; }
+	.chat li:after {
+        display: block;
+        width: 100%;
+        border-bottom: 1px solid #bcbcbc;
+        margin: 20px 0px;
+	}
+</style>
 
 <div class="container-fluid">
 
@@ -62,7 +71,6 @@
 					<button id="addReplyBtn" class="btn btn-primary btn-xs pull-right float-right">New Reply</button>
 				</div>
 				<br />
-				
 				<!-- end panel-heading  -->
 				
 				<div class="panel-body">
@@ -148,26 +156,23 @@
 		var bnoValue = '<c:out value="${board.bno}" />';
 		
 		// for replyService add test
-		/* 
-		replyService.add(
+		/* replyService.add(
 			{reply: "JS Test", replyer:"tester", bno:bnoValue},
 			
 			function(result) {
 				alert("RESULT : " + result);
 			}
-		); 
-		*/
+		); */
 		
 		// reply list test
-		replyService.getList({bno: bnoValue, page:1}, function(list){
+		/* replyService.getList({bno: bnoValue, page:1}, function(list){
 			for(var i = 0, len = list.length || 0; i < len; i++) {
 				console.log(list[i]);
 			}
-		});
+		}); */
 		
 		// reply remove test
-		/* 
-		replyService.remove(rno, function(count) {
+		/* replyService.remove(rno, function(count) {
 			console.log(count);
 			
 			if(count === "success") {
@@ -175,26 +180,21 @@
 			}
 		}, function(err) {
 			alert("ERROR....");
-		}); 
-		*/
+		}); */
 		
 		// reply update test
-		/* 
-		replyService.update({
+		/*  replyService.update({
 			rno: rno,
 			bno: bnoValue,
 			reply: "Modifed Reply...."
 		}, function(result){
 			alert("수정 완료...");
-		}); 
-		*/
+		}); */
 		
 		// reply get test
-		/* 
-		replyService.get(rno, function(data) {
+		/* replyService.get(rno, function(data) {
 			console.log(data);
-		}); 
-		*/
+		}); */
 	});
 </script>
 <script type="text/javascript">
@@ -214,7 +214,7 @@
 					return;
 				}
 				for(var i = 0, len = list.length || 0; i < len; i++) {
-					str += "<li class='left clearfix' data-rno=" + list[i].rno + "'>";
+					str += "<li class='left clearfix' data-rno='" + list[i].rno + "'>";
 					str += "	<div>"
 					str += "		<div class='header'>" 
 					str += "			<strong class='primary-font'>" + list[i].replyer + "</strong>";
@@ -258,8 +258,50 @@
 				
 				modal.find("input").val('');
 				modal.modal("hide");
+				
+				showList(1);
 			});
 		});
+		
+		$(".chat").on("click", "li", function(e) {
+			var rno = $(this).data("rno");
+			
+			replyService.get(rno, function(reply) {
+				
+				modalInputReply.val(reply.reply);
+				modalInputReplyer.val(reply.replyer).attr("readonly", "readonly");
+				modalInputReplyDate.val(replyService.displayTime(reply.replyDate)).attr("readonly", "readonly");
+				modal.data("rno", reply.rno);
+				
+				modal.find("button[id != 'modalCloseBtn']").hide();
+				modalModBtn.show();
+				modalRemoveBtn.show();
+				
+				$("#replyModal").modal("show");
+			});
+		});
+		
+		
+		modalModBtn.on("click", function(e) {
+			var reply = {rno:modal.data("rno"), reply: modalInputReply.val()};
+			
+			replyService.update(reply, function(result){
+				alert(result);
+				modal.modal("hide");
+				showList(1);
+			});
+		});
+		
+		modalRemoveBtn.on("click", function(e) {
+			var rno = modal.data("rno");
+			
+			replyService.remove(rno, function(result) {
+				alert(result);
+				modal.modal("hide");
+				showList(1);
+			});
+		});
+		
 	});
 </script>
 
