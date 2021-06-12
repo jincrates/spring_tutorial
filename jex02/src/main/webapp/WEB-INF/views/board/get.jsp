@@ -51,6 +51,77 @@
 		<!-- end col-lg-12 -->
 	</div>
 	<!-- end row -->
+	
+	<br /><br />
+	<!-- 댓글 영역 -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<i class="fa fa-comments fa-fw"></i> Reply
+					<button id="addReplyBtn" class="btn btn-primary btn-xs pull-right float-right">New Reply</button>
+				</div>
+				<br />
+				
+				<!-- end panel-heading  -->
+				
+				<div class="panel-body">
+					<ul class="chat">
+						<!-- start reply -->
+						<li class="left clearfix" data-rno='12'>
+							<div>
+								<div class="header">
+									<strong class="primary-font">user00</strong>
+									<small class="form-text text-muted float-right">2021-06-12 15:15 </small>
+								</div>
+								<p>Good job!</p>
+							</div>
+						</li>
+						<!-- end reply -->
+					</ul>
+					<!-- end ul -->
+				</div>
+				<!-- end panel-body -->
+			</div>
+			<!-- end panel -->
+		</div>
+	</div>
+	<!-- end row -->
+	
+	<!-- Modal 추가 -->
+	<div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">Reply Modal</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label>Reply</label>
+						<input class="form-control" name="reply" value="New Reply!!!" />
+					</div>
+					<div class="form-group">
+						<label>Replyer</label>
+						<input class="form-control" name="replyer" value="replyer" />
+					</div>
+					<div class="form-group">
+						<label>Reply Date</label>
+						<input class="form-control" name="replyDate" value="" />
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="modalModBtn" type="button" class="btn btn-warning" data-dismiss="modal">Modify</button>
+					<button id="modalRemoveBtn" type="button" class="btn btn-danger" data-dismiss="modal">Remove</button>
+					<button id="modalRegisterBtn" type="button" class="btn btn-primary" data-dismiss="modal">Register</button>
+					<button id="modalCloseBtn" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	
 </div>
 <!-- end container-fluid -->
 <%@include file="../includes/footer.jsp"%>
@@ -74,15 +145,10 @@
 </script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		
-		console.log("======================");
-		console.log("JS TEST");
-		
 		var bnoValue = '<c:out value="${board.bno}" />';
 		
 		// for replyService add test
 		/* 
-		// 댓글 등록
 		replyService.add(
 			{reply: "JS Test", replyer:"tester", bno:bnoValue},
 			
@@ -92,10 +158,108 @@
 		); 
 		*/
 		
+		// reply list test
 		replyService.getList({bno: bnoValue, page:1}, function(list){
 			for(var i = 0, len = list.length || 0; i < len; i++) {
 				console.log(list[i]);
 			}
 		});
+		
+		// reply remove test
+		/* 
+		replyService.remove(rno, function(count) {
+			console.log(count);
+			
+			if(count === "success") {
+				alert("REMOVED");
+			}
+		}, function(err) {
+			alert("ERROR....");
+		}); 
+		*/
+		
+		// reply update test
+		/* 
+		replyService.update({
+			rno: rno,
+			bno: bnoValue,
+			reply: "Modifed Reply...."
+		}, function(result){
+			alert("수정 완료...");
+		}); 
+		*/
+		
+		// reply get test
+		/* 
+		replyService.get(rno, function(data) {
+			console.log(data);
+		}); 
+		*/
 	});
 </script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		var bnoValue = '<c:out value="${board.bno}"/>';
+		var replyUL = $(".chat");
+		
+		showList(1);
+		
+		function showList(page) {
+			replyService.getList({bno:bnoValue, page: page || 1}, function(list) {
+				var str = "";
+				
+				if(list == null || list.length == 0) {
+					replyUL.html("");
+					
+					return;
+				}
+				for(var i = 0, len = list.length || 0; i < len; i++) {
+					str += "<li class='left clearfix' data-rno=" + list[i].rno + "'>";
+					str += "	<div>"
+					str += "		<div class='header'>" 
+					str += "			<strong class='primary-font'>" + list[i].replyer + "</strong>";
+					str += "			<small class='form-text text-muted float-right'>" + replyService.displayTime(list[i].replyDate) + "</small>";
+					str += "		</div>";
+					str += "		<p>" + list[i].reply + "</p>";
+					str += "	</div>";
+					str += "</li>";
+				}
+				replyUL.html(str);
+			}); // end function
+		} // end showList
+		
+		var modal = $("#replyModal");
+		var modalInputReply = modal.find("input[name='reply']");
+		var modalInputReplyer = modal.find("input[name='replyer']");
+		var modalInputReplyDate = modal.find("input[name='replyDate']");
+		
+		var modalModBtn = $("#modalModBtn");
+		var modalRemoveBtn = $("#modalRemoveBtn");
+		var modalRegisterBtn = $("#modalRegisterBtn");
+		
+		$("#addReplyBtn").on("click", function(e) {
+			modal.find("input").val('');
+			modalInputReplyDate.closest("div").hide();
+			modal.find("button[id != 'modalCloseBtn']").hide();
+			
+			modalRegisterBtn.show();
+			
+			$("#replyModal").modal("show");
+		});
+		
+		modalRegisterBtn.on("click", function(e) {
+			var reply = {
+					reply : modalInputReply.val(),
+					replyer : modalInputReplyer.val(),
+					bno : bnoValue
+			};
+			replyService.add(reply, function(result) {
+				alert(result);
+				
+				modal.find("input").val('');
+				modal.modal("hide");
+			});
+		});
+	});
+</script>
+
