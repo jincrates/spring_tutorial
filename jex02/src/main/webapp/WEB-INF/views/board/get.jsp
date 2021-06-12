@@ -55,6 +55,7 @@
 <!-- end container-fluid -->
 <%@include file="../includes/footer.jsp"%>
 
+<script type="text/javascript" src="/resources/js/reply.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		
@@ -68,6 +69,33 @@
 			operForm.find("#bno").remove();
 			operForm.attr("action", "/board/list");
 			operForm.submit();
+		});
+	});
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+		console.log("======================");
+		console.log("JS TEST");
+		
+		var bnoValue = '<c:out value="${board.bno}" />';
+		
+		// for replyService add test
+		/* 
+		// 댓글 등록
+		replyService.add(
+			{reply: "JS Test", replyer:"tester", bno:bnoValue},
+			
+			function(result) {
+				alert("RESULT : " + result);
+			}
+		); 
+		*/
+		
+		replyService.getList({bno: bnoValue, page:1}, function(list){
+			for(var i = 0, len = list.length || 0; i < len; i++) {
+				console.log(list[i]);
+			}
 		});
 	});
 </script>
