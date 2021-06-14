@@ -361,7 +361,38 @@
 			replyPageFooter.html(str);
 		}
 		
+		replyPageFooter.on("click", "li a", function(e){
+			e.preventDefault();  // <a> 태그의 기본 동작을 제한
+			console.log("page click");
+			
+			var targetPageNum = $(this).attr("href");
+			
+			console.log("targetNum: " + targetPageNum);
+			
+			pageNum = targetPageNum;
+			
+			showList(pageNum);
+		});
 		
+		modalModBtn.on("click", function(e){
+			var reply = {rno: modal.data("rno"), reply: modalInputReply.val()};
+			
+			replyService.update(reply, function(result){
+				alert(result);
+				modal.modal("hide");
+				showList(pageNum);
+			});
+		});
+		
+		modalRemoveBtn.on("click", function(e}{
+			var rno = modal.data("rno");
+			
+			replyService.remove(rno, function(result){
+				alert(result);
+				modal.modal("hide");
+				showList(pageNum);
+			});
+		});
 	});
 </script>
 
