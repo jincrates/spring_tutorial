@@ -378,13 +378,12 @@
 			var reply = {rno: modal.data("rno"), reply: modalInputReply.val()};
 			
 			replyService.update(reply, function(result){
-				alert(result);
 				modal.modal("hide");
 				showList(pageNum);
 			});
 		});
 		
-		modalRemoveBtn.on("click", function(e}{
+		modalRemoveBtn.on("click", function(e){
 			var rno = modal.data("rno");
 			
 			replyService.remove(rno, function(result){
